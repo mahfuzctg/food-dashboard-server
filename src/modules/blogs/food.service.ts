@@ -1,45 +1,45 @@
-import { Blog } from "./blog.model";
-import { IBlog } from "./food.interface";
+import { FoodItem } from "./blog.model";
+import { IFoodItem } from "./food.interface";
 
-// Create a new blog
-export const createBlog = async (data: IBlog) => {
-  const blog = await Blog.create(data);
-  return blog;
+// Create a new food item
+export const createFoodItem = async (data: IFoodItem) => {
+  const foodItem = await FoodItem.create(data);
+  return foodItem;
 };
 
-// Fetch all blogs (open to everyone)
-export const getAllBlogs = async () => {
-  const blogs = await Blog.find(); // Fetch all blogs
-  return blogs;
+// Fetch all food items (open to everyone)
+export const getAllFoodItems = async () => {
+  const foodItems = await FoodItem.find(); // Fetch all food items
+  return foodItems;
 };
 
-// Fetch a single blog by ID (open to everyone)
-export const getBlogById = async (id: string) => {
-  const blog = await Blog.findById(id); // Fetch blog by ID without filtering by author
-  return blog;
+// Fetch a single food item by ID (open to everyone)
+export const getFoodItemById = async (id: string) => {
+  const foodItem = await FoodItem.findById(id); // Fetch food item by ID
+  return foodItem;
 };
 
-// Update a blog (only by the author)
-export const updateBlog = async (
+// Update a food item (only by the owner)
+export const updateFoodItem = async (
   id: string,
-  authorId: string,
-  data: Partial<IBlog>
+  ownerId: string,
+  data: Partial<IFoodItem>
 ) => {
-  const updatedBlog = await Blog.findOneAndUpdate(
-    { _id: id, author: authorId },
+  const updatedFoodItem = await FoodItem.findOneAndUpdate(
+    { _id: id, owner: ownerId }, // Ensure the owner is authorized to update
     data,
     {
-      new: true, // Return the updated blog
+      new: true, // Return the updated food item
     }
   );
-  return updatedBlog;
+  return updatedFoodItem;
 };
 
-// Delete a blog (only by the author)
-export const deleteBlog = async (id: string, authorId: string) => {
-  const deletedBlog = await Blog.findOneAndDelete({
+// Delete a food item (only by the owner)
+export const deleteFoodItem = async (id: string, ownerId: string) => {
+  const deletedFoodItem = await FoodItem.findOneAndDelete({
     _id: id,
-    author: authorId, // Ensure only the author can delete their own blog
+    owner: ownerId, // Ensure only the owner can delete their food item
   });
-  return deletedBlog;
+  return deletedFoodItem;
 };
