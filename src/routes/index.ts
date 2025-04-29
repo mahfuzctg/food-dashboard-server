@@ -1,5 +1,4 @@
 import express from "express";
-
 import { FoodsRoutes } from "../modules/foods/food.route";
 
 const router = express.Router();

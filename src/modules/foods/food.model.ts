@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { IFoodItem } from "./food.interface"; // Import the interface we defined earlier
+import { IFoodItem } from "./food.interface";
 
 export interface FoodItemDocument extends IFoodItem, Document {
   createdAt: Date;

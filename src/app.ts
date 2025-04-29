@@ -6,10 +6,7 @@ import routes from "./routes";
 const app = express();
 
 // Define allowed origins
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://my-portfolio-six-psi-51.vercel.app",
-];
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5000"];
 app.options("*", cors());
 // Set up CORS to check against allowed origins
 app.use(
@@ -31,7 +28,7 @@ app.use(express.json());
 
 // Health check route
 app.get("/", (req, res) => {
-  res.send("Welcome to my portfolio server!😄💖");
+  res.send("Welcome to food dashboard server!");
 });
 
 // Use router for API routes

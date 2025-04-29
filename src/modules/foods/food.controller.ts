@@ -1,20 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 import * as FoodService from "./food.service";
-
-// Extend the Express Request interface to include `user`
-interface AuthenticatedRequest extends Request {
-  user: { id: string }; // Define the user object with an ID property
-}
 
 // Create Food Item
 export const createFoodItem = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response
 ): Promise<void> => {
   const { name, price, amount, category } = req.body;
-  const owner = new mongoose.Types.ObjectId(req.user.id);
 
   try {
     const newFoodItem = await FoodService.createFoodItem({
@@ -73,19 +66,18 @@ export const getFoodItem = async (
 
 // Update Food Item
 export const updateFoodItem = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response
 ): Promise<void> => {
   const { id } = req.params;
-  const owner = req.user.id;
   const data = req.body;
 
   try {
-    const updatedFoodItem = await FoodService.updateFoodItem(id, owner, data);
+    const updatedFoodItem = await FoodService.updateFoodItem(id, data);
     if (!updatedFoodItem) {
       res.status(404).json({
         success: false,
-        message: "Food item not found or unauthorized",
+        message: "Food item not found",
       });
       return;
     }
@@ -99,18 +91,17 @@ export const updateFoodItem = async (
 
 // Delete Food Item
 export const deleteFoodItem = async (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response
 ): Promise<void> => {
   const { id } = req.params;
-  const owner = req.user.id;
 
   try {
-    const deletedFoodItem = await FoodService.deleteFoodItem(id, owner);
+    const deletedFoodItem = await FoodService.deleteFoodItem(id);
     if (!deletedFoodItem) {
       res.status(404).json({
         success: false,
-        message: "Food item not found or unauthorized",
+        message: "Food item not found",
       });
       return;
     }
