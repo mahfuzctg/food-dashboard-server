@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import * as BlogService from "./blog.service";
+import * as BlogService from "./food.service";
 
 // Extend the Express Request interface to include `user`
 interface AuthenticatedRequest extends Request {

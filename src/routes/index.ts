@@ -1,6 +1,6 @@
 import express from "express";
 import { AuthRoutes } from "../modules/auth/auth.route";
-import { BlogRoutes } from "../modules/blogs/blog.route";
+import { BlogRoutes } from "../modules/blogs/food.route";
 import { CertificateRoutes } from "../modules/certificates/certificate.routes";
 import { CoursesRoutes } from "../modules/courses/course.routes";
 import { EducationRoutes } from "../modules/educations/education.routes";

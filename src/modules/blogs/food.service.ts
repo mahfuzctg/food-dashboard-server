@@ -1,5 +1,5 @@
-import { IBlog } from "./blog.interface";
 import { Blog } from "./blog.model";
+import { IBlog } from "./food.interface";
 
 // Create a new blog
 export const createBlog = async (data: IBlog) => {
