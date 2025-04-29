@@ -19,27 +19,16 @@ export const getFoodItemById = async (id: string) => {
   return foodItem;
 };
 
-// Update a food item (only by the owner)
-export const updateFoodItem = async (
-  id: string,
-  ownerId: string,
-  data: Partial<IFoodItem>
-) => {
-  const updatedFoodItem = await FoodItem.findOneAndUpdate(
-    { _id: id, owner: ownerId }, // Ensure the owner is authorized to update
-    data,
-    {
-      new: true, // Return the updated food item
-    }
-  );
+// Update a food item (open access)
+export const updateFoodItem = async (id: string, data: Partial<IFoodItem>) => {
+  const updatedFoodItem = await FoodItem.findByIdAndUpdate(id, data, {
+    new: true, // Return the updated food item
+  });
   return updatedFoodItem;
 };
 
-// Delete a food item (only by the owner)
-export const deleteFoodItem = async (id: string, ownerId: string) => {
-  const deletedFoodItem = await FoodItem.findOneAndDelete({
-    _id: id,
-    owner: ownerId, // Ensure only the owner can delete their food item
-  });
+// Delete a food item (open access)
+export const deleteFoodItem = async (id: string) => {
+  const deletedFoodItem = await FoodItem.findByIdAndDelete(id);
   return deletedFoodItem;
 };
