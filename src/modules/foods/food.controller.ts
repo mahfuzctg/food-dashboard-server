@@ -22,7 +22,6 @@ export const createFoodItem = async (
       price,
       amount,
       category,
-      owner,
     });
 
     res.status(201).json({

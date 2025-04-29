@@ -1,5 +1,5 @@
-import { FoodItem } from "./blog.model";
 import { IFoodItem } from "./food.interface";
+import { FoodItem } from "./food.model";
 
 // Create a new food item
 export const createFoodItem = async (data: IFoodItem) => {
