@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 
+// Updated IFoodItem interface to reflect the changes in the amount field
 export interface IFoodItem {
   name: string;
   price: number;
-  amount: number;
+  amount: string;
   image?: string;
   category?: string;
   description?: string;
