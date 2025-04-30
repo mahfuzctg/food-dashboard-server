@@ -1,13 +1,19 @@
 import express from "express";
+import multer from "multer";
 import * as FoodController from "./food.controller";
 
 const router = express.Router();
 
+// Multer config: store files in "uploads/" folder
+const upload = multer({ dest: "uploads/" });
+
 // Routes for food items
-router.post("/", FoodController.createFoodItem); // Create food item
-router.get("/", FoodController.getFoodItems); // Get all food items
-router.get("/:id", FoodController.getFoodItem); // Get single food item by ID
-router.put("/:id", FoodController.updateFoodItem); // Update food item
-router.delete("/:id", FoodController.deleteFoodItem); // Delete food item
+router.post("/", upload.single("image"), FoodController.createFoodItem);
+router.get("/", FoodController.getFoodItems);
+router.get("/:id", FoodController.getFoodItem);
+
+router.put("/:id", upload.single("image"), FoodController.updateFoodItem);
+
+router.delete("/:id", FoodController.deleteFoodItem);
 
 export const FoodsRoutes = router;

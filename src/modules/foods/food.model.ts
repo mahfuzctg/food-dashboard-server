@@ -1,26 +1,28 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { IFoodItem } from "./food.interface";
 
+// FoodItemDocument will include all the properties from IFoodItem
+// and also the Mongoose Document properties (like _id, createdAt, updatedAt)
 export interface FoodItemDocument extends IFoodItem, Document {
-  createdAt: Date;
-  updatedAt: Date;
+  // No need to define createdAt and updatedAt explicitly here as they're handled by timestamps
 }
 
-const FoodItemSchema: Schema = new Schema<FoodItemDocument>(
+// Define the schema for FoodItem
+const FoodItemSchema: Schema<FoodItemDocument> = new Schema(
   {
-    name: { type: String, required: true }, // Name of the food item (Required)
-    price: { type: Number, required: true }, // Price of the food item (Required)
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
     image: { type: String, required: false },
-    amount: { type: Number, required: true }, // Amount (in kg or pieces, Required)
-    category: { type: String, required: false }, // Optional category for the food item
-    description: { type: String, required: false }, // Optional description of the food item
+    amount: { type: Number, required: true },
+    category: { type: String, required: false },
+    description: { type: String, required: false },
   },
   {
-    timestamps: true, // Automatically manage createdAt and updatedAt fields
+    timestamps: true, // Automatically manages createdAt and updatedAt
   }
 );
 
-// Export the model using the schema
+// Export the FoodItem model
 export const FoodItem = mongoose.model<FoodItemDocument>(
   "FoodItem",
   FoodItemSchema

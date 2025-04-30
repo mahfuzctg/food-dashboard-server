@@ -7,7 +7,10 @@ export const createFoodItem = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { name, price, amount, category } = req.body;
+  const { name, price, amount, category, description } = req.body;
+
+  // If an image URL is passed in the request body, use it; otherwise, leave it blank
+  const image = req.body.image || "";
 
   try {
     const newFoodItem = await FoodService.createFoodItem({
@@ -15,6 +18,8 @@ export const createFoodItem = async (
       price,
       amount,
       category,
+      description,
+      image, // Save the image URL directly
     });
 
     res.status(201).json({
@@ -22,6 +27,7 @@ export const createFoodItem = async (
       data: newFoodItem,
     });
   } catch (err) {
+    console.error("Create Error:", err);
     res
       .status(500)
       .json({ success: false, message: "Failed to create food item" });
@@ -70,7 +76,12 @@ export const updateFoodItem = async (
   res: Response
 ): Promise<void> => {
   const { id } = req.params;
-  const data = req.body;
+  const data = { ...req.body };
+
+  // Ensure proper type conversion
+  if (data.price) data.price = parseFloat(data.price);
+  if (data.amount) data.amount = parseInt(data.amount, 10);
+  if (req.file?.path) data.image = req.file.path;
 
   try {
     const updatedFoodItem = await FoodService.updateFoodItem(id, data);

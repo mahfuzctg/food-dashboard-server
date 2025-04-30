@@ -1,5 +1,6 @@
 import cors from "cors";
-import express from "express";
+import express, { Request, Response } from "express";
+import path from "path";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
 import routes from "./routes";
 
@@ -7,35 +8,39 @@ const app = express();
 
 // Define allowed origins
 const allowedOrigins = ["http://localhost:5173", "http://localhost:5000"];
-app.options("*", cors());
-// Set up CORS to check against allowed origins
+
+// Set up CORS middleware with allowed origins
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
       } else {
         console.error("Blocked by CORS:", origin);
-        return callback(new Error("Not allowed by CORS"));
+        callback(new Error("Not allowed by CORS"));
       }
     },
+    credentials: true, // If using cookies or auth headers
   })
 );
 
-// Use JSON body parser
+// Middleware for parsing JSON and form data
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Health check route
-app.get("/", (req, res) => {
+// Serve static files from /uploads
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
+// Health check
+app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to food dashboard server!");
 });
 
-// Use router for API routes
+// Main API routes
 app.use("/api", routes);
 
-// Catch-all route for 404 errors
-app.all("*", (req, res) => {
+// Catch-all 404 handler
+app.all("*", (req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     statusCode: 404,
